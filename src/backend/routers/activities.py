@@ -27,25 +27,52 @@ def get_activities(
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
     - end_time: Filter activities ending at or before this time (24-hour format, e.g., '17:00')
     """
-    # Build the query based on provided filters
-    query = {}
-    
-    if day:
-        query["schedule_details.days"] = {"$in": [day]}
-    
-    if start_time:
-        query["schedule_details.start_time"] = {"$gte": start_time}
-    
-    if end_time:
-        query["schedule_details.end_time"] = {"$lte": end_time}
-    
-    # Query the database
-    activities = {}
-    for activity in activities_collection.find(query):
-        name = activity.pop('_id')
-        activities[name] = activity
-    
-    return activities
+    try:
+        # Build the query based on provided filters
+        query = {}
+        
+        if day:
+            query["schedule_details.days"] = {"$in": [day]}
+        
+        if start_time:
+            query["schedule_details.start_time"] = {"$gte": start_time}
+        
+        if end_time:
+            query["schedule_details.end_time"] = {"$lte": end_time}
+        
+        # Query the database
+        activities = {}
+        for activity in activities_collection.find(query):
+            name = activity.pop('_id')
+            activities[name] = activity
+        
+        return activities
+    except Exception as e:
+        # Fallback to initial activities if MongoDB is not available
+        from ..database import initial_activities
+        activities = dict(initial_activities)
+        
+        # Apply filtering manually if MongoDB is not available
+        if day or start_time or end_time:
+            filtered_activities = {}
+            for name, details in activities.items():
+                include = True
+                
+                if day and day not in details.get("schedule_details", {}).get("days", []):
+                    include = False
+                
+                if start_time and details.get("schedule_details", {}).get("start_time", "") < start_time:
+                    include = False
+                    
+                if end_time and details.get("schedule_details", {}).get("end_time", "") > end_time:
+                    include = False
+                    
+                if include:
+                    filtered_activities[name] = details
+                    
+            return filtered_activities
+        
+        return activities
 
 @router.get("/days", response_model=List[str])
 def get_available_days() -> List[str]:

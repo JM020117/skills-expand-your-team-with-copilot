@@ -19,16 +19,19 @@ def hash_password(password):
 
 def init_database():
     """Initialize database if empty"""
-
-    # Initialize activities if empty
-    if activities_collection.count_documents({}) == 0:
-        for name, details in initial_activities.items():
-            activities_collection.insert_one({"_id": name, **details})
-            
-    # Initialize teacher accounts if empty
-    if teachers_collection.count_documents({}) == 0:
-        for teacher in initial_teachers:
-            teachers_collection.insert_one({"_id": teacher["username"], **teacher})
+    try:
+        # Initialize activities if empty
+        if activities_collection.count_documents({}) == 0:
+            for name, details in initial_activities.items():
+                activities_collection.insert_one({"_id": name, **details})
+                
+        # Initialize teacher accounts if empty
+        if teachers_collection.count_documents({}) == 0:
+            for teacher in initial_teachers:
+                teachers_collection.insert_one({"_id": teacher["username"], **teacher})
+    except Exception as e:
+        print(f"Warning: Could not connect to MongoDB: {e}")
+        print("Application will continue with limited functionality")
 
 # Initial database if empty
 initial_activities = {
@@ -163,6 +166,17 @@ initial_activities = {
         },
         "max_participants": 16,
         "participants": ["william@mergington.edu", "jacob@mergington.edu"]
+    },
+    "Manga Maniacs": {
+        "description": "Dive into epic adventures, unlock hidden powers, and discover worlds beyond imagination! Join fellow manga enthusiasts to discuss your favorite series, share recommendations, and explore the art of Japanese storytelling through graphic novels",
+        "schedule": "Tuesdays, 7:00 PM - 8:00 PM",
+        "schedule_details": {
+            "days": ["Tuesday"],
+            "start_time": "19:00",
+            "end_time": "20:00"
+        },
+        "max_participants": 15,
+        "participants": []
     }
 }
 

@@ -1,0 +1,160 @@
+name: UI/UX Improvement
+description: Request improvements to the user interface or user experience
+title: "[UI/UX] "
+labels: ["enhancement", "ui-ux"]
+assignees:
+  - copilot
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Request UI/UX Improvement
+        Use this form to suggest improvements to the website's appearance, layout, or user experience.
+
+  - type: dropdown
+    id: improvement-type
+    attributes:
+      label: Type of Improvement
+      description: What kind of improvement are you suggesting?
+      options:
+        - Visual design (colors, fonts, styling)
+        - Layout/organization (how things are arranged)
+        - Navigation (how users move through the site)
+        - Accessibility (making it easier for all users)
+        - Mobile responsiveness (how it looks on phones/tablets)
+        - User feedback (messages, notifications, confirmations)
+        - Performance (speed, loading times)
+        - New feature/functionality
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-page
+    attributes:
+      label: Which page or section?
+      description: Where should this improvement be made?
+      options:
+        - Main activities page
+        - Activity cards
+        - Registration form/modal
+        - Login form/modal
+        - Search and filters
+        - Header/navigation
+        - Footer
+        - Entire site
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current Situation
+      description: Describe how it currently works or looks
+      placeholder: "e.g., The activity cards all look the same color, making it hard to distinguish between academic and sports activities"
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired-state
+    attributes:
+      label: Desired Improvement
+      description: Describe what you'd like to see instead
+      placeholder: "e.g., Use different colors for different activity types so students can quickly identify the kind of activity they're looking at"
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefit
+    attributes:
+      label: Why is this important?
+      description: Explain how this improvement will help teachers, students, or administrators
+      placeholder: "e.g., Students will be able to browse activities more efficiently and find what interests them faster"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this improvement?
+      options:
+        - High - Makes the system difficult to use
+        - Medium - Would significantly improve usability
+        - Low - Nice to have but system works fine without it
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-group
+    attributes:
+      label: Who benefits most?
+      description: Which users will this help the most?
+      options:
+        - Students (browsing and registering)
+        - Teachers (managing activities)
+        - Both students and teachers
+        - Administrators
+        - Everyone
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Any examples, sketches, or links to similar designs you like?
+      placeholder: "e.g., 'Like how Gmail color-codes different email categories' or provide a link to a similar feature on another website"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-details
+    attributes:
+      label: Additional Details
+      description: Any other information that would help implement this improvement?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        The improvement should:
+        - Address the specific need described above
+        - Maintain or improve current functionality
+        - Be consistent with the overall design of the site
+        - Work well on different screen sizes (desktop, tablet, mobile)
+        - Not negatively impact site performance
+        - Be accessible to all users
+
+        ### Implementation Hints
+        Common areas to modify:
+        - **Styling**: `src/static/styles.css` - All CSS styles
+        - **HTML structure**: `src/static/index.html` - Page layout and elements
+        - **Interactive behavior**: `src/static/app.js` - JavaScript functionality
+        - **Color schemes**: Look for CSS variables and color definitions
+        - **Responsive design**: Check media queries in the CSS
+
+        ### Design Considerations
+        - Keep the design simple and student-friendly
+        - Ensure sufficient color contrast for readability
+        - Test on different devices and screen sizes
+        - Maintain consistent spacing and alignment
+        - Consider accessibility guidelines (WCAG)
+        - Preserve the school's branding if applicable
+
+        ### Related Files
+        - `src/static/styles.css` - Styling and visual design
+        - `src/static/index.html` - HTML structure and layout
+        - `src/static/app.js` - Dynamic UI behavior and interactions
+
+        ### Testing Recommendations
+        - Test on different browsers (Chrome, Firefox, Safari)
+        - Test on different devices (desktop, tablet, phone)
+        - Verify that all interactive elements still work
+        - Check that text is readable and colors have good contrast
+        - Ensure the design looks good with different amounts of content

@@ -1,0 +1,129 @@
+name: Add New Extracurricular Activity
+description: Request to add a new extracurricular activity to the system
+title: "[Activity] Add new activity: "
+labels: ["enhancement", "activity"]
+assignees:
+  - copilot
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Add a New Activity
+        Use this form to request adding a new extracurricular activity to Mergington High School's activity management system.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: What is the name of the new activity?
+      placeholder: "e.g., Photography Club, Science Olympiad, Drama Club"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Activity Description
+      description: Provide a detailed description of the activity. What will students do? What skills will they learn?
+      placeholder: "e.g., Learn digital photography techniques, photo editing, and participate in photo exhibitions"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: activity-type
+    attributes:
+      label: Activity Type/Category
+      description: What category does this activity fall under?
+      options:
+        - Academic (e.g., Math Club, Science Team)
+        - Arts (e.g., Art, Music, Drama)
+        - Sports (e.g., Basketball, Soccer)
+        - Technology (e.g., Coding, Robotics)
+        - Community Service (e.g., Volunteering)
+        - Social (e.g., Chess Club, Board Games)
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: schedule-days
+    attributes:
+      label: Meeting Days
+      description: Which days will this activity meet? (Select all that apply)
+      options:
+        - label: Monday
+        - label: Tuesday
+        - label: Wednesday
+        - label: Thursday
+        - label: Friday
+        - label: Saturday
+        - label: Sunday
+
+  - type: input
+    id: start-time
+    attributes:
+      label: Start Time
+      description: What time does the activity start? (Use 24-hour format HH:MM)
+      placeholder: "e.g., 15:30 for 3:30 PM, 07:15 for 7:15 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: end-time
+    attributes:
+      label: End Time
+      description: What time does the activity end? (Use 24-hour format HH:MM)
+      placeholder: "e.g., 17:00 for 5:00 PM, 08:00 for 8:00 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: max-participants
+    attributes:
+      label: Maximum Number of Participants
+      description: What is the maximum number of students that can participate?
+      placeholder: "e.g., 15, 20, 30"
+    validations:
+      required: true
+
+  - type: textarea
+    id: initial-participants
+    attributes:
+      label: Initial Participants (Optional)
+      description: List any students already registered (one email per line)
+      placeholder: |
+        student1@mergington.edu
+        student2@mergington.edu
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details about the activity (materials needed, prerequisites, etc.)?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        The activity should be:
+        - Added to the database with all provided information
+        - Visible on the main activities page
+        - Filterable by day and time
+        - Available for student registration (if not at capacity)
+
+        ### Implementation Hints
+        - Add the activity to `initial_activities` in `src/backend/database.py`
+        - Ensure the schedule format matches existing activities
+        - The activity type should be detectable by the frontend for proper categorization
+        - Verify the time format is compatible with the existing time filter system
+
+        ### Related Files
+        - `src/backend/database.py` - Database initialization with activities
+        - `src/static/app.js` - Frontend activity rendering and filtering
+        - `src/static/index.html` - Activity display structure

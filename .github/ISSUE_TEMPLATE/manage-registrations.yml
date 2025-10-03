@@ -1,0 +1,111 @@
+name: Manage Student Registrations
+description: Add or remove students from activities
+title: "[Registration] "
+labels: ["student-management"]
+assignees:
+  - copilot
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Manage Student Registrations
+        Use this form to add or remove students from extracurricular activities.
+
+  - type: dropdown
+    id: action-type
+    attributes:
+      label: Action Type
+      description: What would you like to do?
+      options:
+        - Add student(s) to an activity
+        - Remove student(s) from an activity
+        - Move student(s) between activities
+    validations:
+      required: true
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: Which activity is this for?
+      placeholder: "e.g., Chess Club, Programming Class, Drama Club"
+    validations:
+      required: true
+
+  - type: textarea
+    id: student-emails
+    attributes:
+      label: Student Email Address(es)
+      description: Enter the email address(es) of the student(s) (one per line)
+      placeholder: |
+        student1@mergington.edu
+        student2@mergington.edu
+        student3@mergington.edu
+    validations:
+      required: true
+
+  - type: input
+    id: target-activity
+    attributes:
+      label: Target Activity (for moves only)
+      description: If moving students, which activity should they be moved to?
+      placeholder: "e.g., Advanced Chess Strategies"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Change
+      description: Why is this registration change needed?
+      placeholder: "e.g., Student requested transfer, parent contacted school, activity full but student on waitlist, clerical error"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: capacity-override
+    attributes:
+      label: Override Capacity
+      description: Check this if you need to add students even if the activity is at capacity
+      options:
+        - label: Override capacity limit (use only when necessary)
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Any other relevant information?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        The registration changes should:
+        - Successfully add/remove the specified student(s)
+        - Update the participant count correctly
+        - Maintain data consistency in the database
+        - Update the UI to reflect the changes
+        - Respect capacity limits (unless override is specified)
+
+        ### Implementation Hints
+        - For adding students: Use the `/activities/{activity_name}/signup` endpoint
+        - For removing students: Use the `/activities/{activity_name}/unregister` endpoint
+        - Both endpoints require teacher authentication
+        - Check for capacity limits before adding students
+        - Validate student email format (must end with @mergington.edu)
+        - For moves: First remove from source activity, then add to target activity
+
+        ### Related Files
+        - `src/backend/routers/activities.py` - Registration endpoints (signup, unregister)
+        - `src/backend/database.py` - Activity participant storage
+        - `src/static/app.js` - Frontend registration handling
+
+        ### Important Considerations
+        - Ensure teacher is authenticated before making changes
+        - Verify the activity exists before attempting registration changes
+        - Check if student is already registered (for additions) or not registered (for removals)
+        - Consider notifying students/parents of registration changes (future enhancement)

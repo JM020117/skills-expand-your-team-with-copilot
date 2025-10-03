@@ -1,0 +1,137 @@
+name: Modify Existing Activity
+description: Request changes to an existing extracurricular activity
+title: "[Activity] Modify activity: "
+labels: ["enhancement", "activity"]
+assignees:
+  - copilot
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Modify an Existing Activity
+        Use this form to request changes to an existing extracurricular activity.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: Which activity needs to be modified?
+      placeholder: "e.g., Chess Club, Programming Class, Drama Club"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: changes-needed
+    attributes:
+      label: What needs to be changed?
+      description: Select all that apply
+      options:
+        - label: Activity description
+        - label: Schedule (days/times)
+        - label: Maximum number of participants
+        - label: Activity name
+        - label: Other (specify in details below)
+
+  - type: textarea
+    id: new-description
+    attributes:
+      label: New Description (if applicable)
+      description: Provide the updated description for this activity
+      placeholder: "Enter the new description here"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: new-schedule-days
+    attributes:
+      label: New Meeting Days (if applicable)
+      description: Which days should this activity meet? (Select all that apply)
+      options:
+        - label: Monday
+        - label: Tuesday
+        - label: Wednesday
+        - label: Thursday
+        - label: Friday
+        - label: Saturday
+        - label: Sunday
+
+  - type: input
+    id: new-start-time
+    attributes:
+      label: New Start Time (if applicable)
+      description: What should the new start time be? (Use 24-hour format HH:MM)
+      placeholder: "e.g., 15:30 for 3:30 PM, 07:15 for 7:15 AM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-end-time
+    attributes:
+      label: New End Time (if applicable)
+      description: What should the new end time be? (Use 24-hour format HH:MM)
+      placeholder: "e.g., 17:00 for 5:00 PM, 08:00 for 8:00 AM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-max-participants
+    attributes:
+      label: New Maximum Participants (if applicable)
+      description: What should the new participant limit be?
+      placeholder: "e.g., 15, 20, 30"
+    validations:
+      required: false
+
+  - type: input
+    id: new-activity-name
+    attributes:
+      label: New Activity Name (if renaming)
+      description: If you're renaming the activity, what should the new name be?
+      placeholder: "e.g., Advanced Chess Strategies"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Change
+      description: Why are these changes needed?
+      placeholder: "e.g., Students requested different meeting times, need to accommodate more participants, activity focus has shifted"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-details
+    attributes:
+      label: Additional Details
+      description: Any other information about the requested changes?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        The activity should be updated with:
+        - All requested changes applied correctly
+        - Updated information visible on the activities page
+        - Existing participant registrations preserved (unless capacity changes require adjustments)
+        - Filters and search still working correctly
+
+        ### Implementation Hints
+        - Modify the activity entry in `initial_activities` in `src/backend/database.py`
+        - If renaming, ensure the activity key is updated and references are maintained
+        - If changing capacity and current participants exceed new capacity, consider how to handle this
+        - Update both the `schedule` string and `schedule_details` object for consistency
+
+        ### Related Files
+        - `src/backend/database.py` - Database initialization and activity definitions
+        - `src/backend/routers/activities.py` - Activity endpoints and logic
+        - `src/static/app.js` - Frontend activity display and filtering
+
+        ### Important Notes
+        - Changes to `initial_activities` only affect new database initializations
+        - For existing databases, you may need to add migration logic
+        - Consider the impact on currently registered students

@@ -1,0 +1,151 @@
+name: Report a Bug
+description: Report a technical issue or bug in the system
+title: "[Bug] "
+labels: ["bug"]
+assignees:
+  - copilot
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Report a Bug
+        Use this form to report technical issues or unexpected behavior in the activity management system.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: What went wrong?
+      description: Describe the problem you encountered. Be as specific as possible.
+      placeholder: "e.g., When I try to register a student for Chess Club, I get an error message"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Which part of the system is affected?
+      description: Select the area where the bug occurs
+      options:
+        - Activity registration/signup
+        - Activity display/filtering
+        - Teacher login/authentication
+        - Activity search
+        - Student unregistration
+        - Activity information display
+        - User interface/layout
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: How to reproduce the bug
+      description: List the exact steps to recreate this problem
+      placeholder: |
+        1. Go to the activities page
+        2. Click on 'Chess Club'
+        3. Enter student email
+        4. Click 'Register'
+        5. Error appears
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What should happen instead?
+      description: Describe what you expected to happen
+      placeholder: "e.g., The student should be successfully registered and appear in the participant list"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: What actually happens?
+      description: Describe what actually occurs
+      placeholder: "e.g., An error message appears saying 'Failed to update activity'"
+    validations:
+      required: true
+
+  - type: input
+    id: error-message
+    attributes:
+      label: Error Message (if any)
+      description: If you see an error message, please copy it here exactly
+      placeholder: "e.g., 'Authentication required for this action' or '404 - Activity not found'"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does this happen?
+      options:
+        - Every time
+        - Sometimes
+        - Only once
+        - Rarely
+    validations:
+      required: true
+
+  - type: input
+    id: activity-involved
+    attributes:
+      label: Activity Name (if applicable)
+      description: Which activity is involved in this bug?
+      placeholder: "e.g., Chess Club, Programming Class"
+    validations:
+      required: false
+
+  - type: input
+    id: student-email
+    attributes:
+      label: Student Email (if applicable)
+      description: Which student account is involved? (will be kept confidential)
+      placeholder: "e.g., student@mergington.edu"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Information
+      description: Any other details that might help (screenshots, time when it occurred, etc.)
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        The bug fix should:
+        - Resolve the reported issue completely
+        - Not introduce new bugs or break existing functionality
+        - Include error handling to prevent similar issues
+        - Be tested to verify the fix works as expected
+
+        ### Debugging Hints
+        Common areas to investigate:
+        - **Authentication issues**: Check teacher login status in `src/backend/routers/auth.py`
+        - **Registration errors**: Review validation logic in `src/backend/routers/activities.py`
+        - **Display issues**: Check frontend rendering in `src/static/app.js`
+        - **Database errors**: Verify MongoDB connection and queries in `src/backend/database.py`
+        - **API errors**: Check FastAPI logs and endpoint implementations
+
+        ### Related Files to Check
+        - `src/backend/routers/activities.py` - Activity management endpoints
+        - `src/backend/routers/auth.py` - Authentication logic
+        - `src/static/app.js` - Frontend JavaScript logic
+        - `src/static/index.html` - HTML structure and forms
+        - `src/backend/database.py` - Database operations
+
+        ### Testing Checklist
+        After fixing:
+        - [ ] Test the specific scenario described
+        - [ ] Test related functionality to ensure nothing broke
+        - [ ] Verify error messages are clear and helpful
+        - [ ] Check that the fix works for different activities/students
